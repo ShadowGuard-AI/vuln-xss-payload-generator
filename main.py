@@ -59,6 +59,11 @@ def filter_payload(payload, filter_string):
         if not filter_string:
             return payload
 
+        # The removal is a single pass over the original text. A
+        # payload built as <scr<filter>ipt> style nesting, with the
+        # filtered word straddling the join, comes out of this line
+        # holding the very string the filter meant to remove, which
+        # is exactly the weakness this simulation exists to show.
         return payload.replace(filter_string, "")
     except Exception as e:
         logging.error(f"Error filtering payload: {e}")
@@ -79,6 +84,8 @@ def write_to_file(filename, payload):
         filename (str): The name of the file to write to.
         payload (str): The payload to write.
     """
+    # A failed write is only logged. main does not check anything
+    # back from here, so the run exits 0 with no file written.
     try:
         with open(filename, "w") as f:
             f.write(payload)
@@ -108,6 +115,11 @@ def main():
     if len(payload) > 2048:
         logging.warning("Payload length exceeds recommended limit (2048 characters).")
 
+    # Encoding runs before filtering in main, so a filter written
+    # against the raw payload, the opening script tag for example,
+    # finds nothing in HTML or URL encoded output and silently does
+    # nothing. The usage examples at the bottom combine both flags
+    # without mentioning that order.
     # Encode the payload
     encoded_payload = encode_payload(payload, args.encoding)
     if encoded_payload is None:
