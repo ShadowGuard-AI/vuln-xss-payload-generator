@@ -11,7 +11,7 @@ def setup_argparse():
     """
     Sets up the argument parser for the command-line interface.
     """
-    parser = argparse.ArgumentParser(description="XSS Payload Generator")
+    parser = argparse.ArgumentParser(description="XSS payload encoder and filter simulator: encodes or filter-simulates one operator supplied payload, and can list four built in examples.")
     parser.add_argument("-p", "--payload", help="Base payload to encode or filter.", required=False)
     parser.add_argument("-e", "--encoding", choices=['html', 'url', 'none'], default='none', help="Encoding type: html, url, none. Default: none")
     parser.add_argument("-f", "--filter", help="Filter to simulate (e.g., remove <script>).  Provide filter string.", required=False)

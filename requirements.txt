@@ -1,3 +1,1 @@
-vulnerator>=1.0.0
-autorest>=1.0.0
-requests>=1.0.0
+# This tool uses only the Python standard library. There are no third-party dependencies to install.
